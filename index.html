@@ -1,148 +1,294 @@
-<!DOCTYPE html><html lang="id">
+<!DOCTYPE html>
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>CIYZ LOGIN</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>DEEXRYZ V2</title>
   <style>
     body {
       margin: 0;
-      padding: 0;
-      font-family: Arial, sans-serif;
-      background-image: url('https://img1.pixhost.to/images/6893/617298240_kyami.jpg');
+      font-family: sans-serif;
+      background-image: url('https://files.catbox.moe/hckwr4.jpg');
       background-size: cover;
       background-position: center;
-      color: black;
+      color: white;
+      text-align: center;
     }
-    .center {
+    .container {
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      height: 100vh;
-      gap: 10px;
+      min-height: 100vh;
+      gap: 1rem;
     }
     input, button {
-      padding: 10px;
-      border: none;
-      border-radius: 8px;
-      font-size: 16px;
-      width: 250px;
-      box-shadow: 0 0 10px black;
-    }
-    button {
-      background-color: white;
-      cursor: pointer;
-    }
-    .notif {
-      position: fixed;
-      top: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: rgba(0, 0, 0, 0.8);
-      color: white;
       padding: 10px 20px;
       border-radius: 10px;
-      animation: notifAnim 6s ease-in-out infinite;
+      border: none;
+      font-size: 16px;
     }
-    @keyframes notifAnim {
-      0% { top: -100px; opacity: 0; }
-      25% { top: 20px; opacity: 1; }
-      75% { top: 20px; opacity: 1; }
-      100% { top: -100px; opacity: 0; }
+    button {
+      background: linear-gradient(45deg, red, green, blue, turquoise);
+      background-size: 400% 400%;
+      animation: rgbtButton 5s ease infinite;
+      color: white;
+      cursor: pointer;
+      font-weight: bold;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
     }
-    .copyright {
+    input {
+      background-color: rgba(255, 255, 255, 0.2);
+      color: white;
+      border: 1px solid black;
+    }
+    .hidden { display: none; }
+
+    .volume-control {
       position: fixed;
-      bottom: 10px;
+      right: 10px;
+      bottom: 70px;
+    }
+    .play-btn {
+      background: none;
+      border: none;
+      font-size: 24px;
+      cursor: pointer;
+      position: fixed;
+      right: 10px;
+      bottom: 120px;
+      color: white;
+    }
+
+    .logout-btn {
+      background: linear-gradient(45deg, red, green, blue, turquoise);
+      background-size: 400% 400%;
+      animation: rgbtButton 5s ease infinite;
+      color: white;
+      margin-top: 10px;
+    }
+
+    .notif {
+      position: fixed;
+      top: 60px;
       left: 50%;
       transform: translateX(-50%);
-      color: white;
-      text-shadow: 0 0 5px black;
+      background-color: rgba(0,0,0,0.6);
+      padding: 10px 20px;
+      border-radius: 10px;
+      animation: fadeOnly 2s ease;
+      z-index: 98;
     }
+    @keyframes fadeOnly {
+      0% { opacity: 0; }
+      20% { opacity: 1; }
+      80% { opacity: 1; }
+      100% { opacity: 0; }
+    }
+
+    footer {
+      position: fixed;
+      bottom: 10px;
+      width: 100%;
+      text-align: center;
+      font-size: 14px;
+    }
+
+    #supportContainer {
+      background-color: rgba(0, 0, 0, 0.5);
+      padding: 20px;
+      border-radius: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .support-box {
+      padding: 6px 20px;
+      border-radius: 10px;
+      background-color: rgba(255,255,255,0.1);
+    }
+
+    .led-banner {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background: rgba(0, 0, 0, 0.6);
+      overflow: hidden;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      z-index: 99;
+    }
+
+    .led-text {
+      font-size: 24px;
+      font-weight: bold;
+      white-space: nowrap;
+      background: linear-gradient(45deg, red, green, blue, turquoise);
+      background-size: 400% 400%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: ledScroll 12s linear infinite, rgbtText 5s ease infinite;
+    }
+
+    @keyframes ledScroll {
+  0%   { transform: translateX(100%); }
+  100% { transform: translateX(-100%); }
+}
+
+    @keyframes rgbtText {
+      0% { background-position: 0% 50%; }
+      100% { background-position: 100% 50%; }
+    }
+
+    @keyframes rgbtButton {
+      0% { background-position: 0% 50%; }
+      100% { background-position: 100% 50%; }
+    }
+
   </style>
 </head>
 <body>
-  <div class="center" id="loginSection">
-    <input type="text" id="username" placeholder="Masukkan Username" />
-    <input type="text" id="email" placeholder="Masukkan Email" />
-    <input type="password" id="password" placeholder="Masukkan Password" />
-    <button onclick="checkLogin()">Masuk</button>
-  </div>  <div class="center" id="mainMenu" style="display:none; flex-direction: column;">
-    <div style="margin-bottom:10px;">© CIYZ GOOD</div>
-    <button onclick="showBugMenu()">Menu Bug</button>
+  <audio id="bgm" src="https://files.catbox.moe/cuot2o.mp3" loop></audio>
+
+  <div class="led-banner">
+    <div class="led-text">WEB FREE JANGAN DIJUAL</div>
+  </div>
+
+  <div class="notif" id="notif" style="display:none;">Notifikasi</div>
+
+  <div class="container" id="loginContainer">
+    <h2>Login</h2>
+    <input type="text" id="email" placeholder="Email" />
+    <input type="password" id="password" placeholder="Password" />
+    <button onclick="handleLogin()">Login</button>
+  </div>
+
+  <div class="container hidden" id="mainContainer">
+    <button onclick="toggleBugMenu()">MENU BUG</button>
     <button onclick="window.location.href='https://wa.me/62895337727870?text=Permisi+Developer'">Developer</button>
-    <button onclick="window.location.href='https://wa.me/6285122051128'">Owner</button>
-    <button onclick="window.location.href='https://whatsapp.com/channel/0029VbAiecsATRSthuPIDA23'">Saluran WA</button>
-    <button onclick="logout()">Logout</button>
-  </div>  <div class="center" id="bugMenu" style="display:none; flex-direction: column;">
-    <input type="text" id="targetNumber" placeholder="example : 08xxxxxxxx" />
-    <button>viont-force</button>
-    <button>viont-blank</button>
-    <button>viontxciyz</button>
-    <button>the-oliviont</button>
-    <button onclick="hideBugMenu()">Back</button>
-  </div>  <div class="notif" id="notifBox" style="display:none;"></div>
-  <div class="copyright">© CIYZ GOOD</div>  <script>
-    const DATA_KEY = 'device_check_';
+    <button onclick="window.location.href='https://whatsapp.com/channel/0029Vb9fuDD5PO0y6WfXmv21'">Channel Developer</button>
+    <button onclick="showSupport()">Support To</button>
+    <button class="logout-btn" onclick="handleLogout()">Log Out</button>
+  </div>
 
-    function getDeviceID() {
-      let id = localStorage.getItem('device_id');
-      if (!id) {
-        id = Math.random().toString(36).substring(2);
-        localStorage.setItem('device_id', id);
-      }
-      return id;
+  <div class="container hidden" id="bugMenu">
+    <input type="text" id="targetNumber" placeholder="08xxxxxxxx" />
+    <button onclick="handleBug('DEEXRYZ CRASH')">DEEXRYZ CRASH</button>
+    <button onclick="handleBug('DEEXRYZ DELAY')">DEEXRYZ DELAY</button>
+    <button onclick="handleBug('DEEXRYZ IPHONE')">DEEXRYZ IPHONE</button>
+    <button onclick="handleBug('DEEXRYZ DEVICE')">DEEXRYZ DEVICE</button>
+    <button onclick="handleBug('DEEXRYZ RESTART PHONE')">DEEXRYZ RESTART PHONE</button>
+    <button onclick="backToMain()">Back</button>
+  </div>
+
+  <div class="container hidden" id="supportWrapper">
+    <div id="supportContainer">
+      <div class="support-box"><strong>Support To:</strong></div>
+      <div class="support-box">RYZENX [ DEVELOPER ]</div>
+      <div class="support-box">CHRIZYX [ BEST FRIEND ]</div>
+      <div class="support-box">RIZZXA [ BEST FRIEND ]</div>
+      <div class="support-box">DEDE [ DEVELOPER ]</div>
+      <div class="support-box">PUTZ [ MEMBER'S ]</div>
+      <div class="support-box">MR. LexzTheRuler [ SUPPORT & BEST FRIEND ]</div>
+      <div class="support-box">AREXANS [ SUPPORT ]</div>
+      <div class="support-box">AJI [ MEMBER'S ]</div>
+      <div class="support-box">Kayyzoo Jebe [ Reseller ]</div>
+      <div class="support-box">ALLAH [ MY GOD ]</div>
+      <div class="support-box">ORTU [ SUPPORT ]</div>
+      <div class="support-box"><button onclick="backToMain()">Back</button></div>
+    </div>
+  </div>
+
+  <button class="play-btn" onclick="togglePlay()">🔊</button>
+  <input class="volume-control hidden" type="range" min="0" max="1" step="0.01" id="volumeControl" />
+  <footer>© CRR TEAM</footer>
+
+  <script>
+    const loginContainer = document.getElementById('loginContainer');
+    const mainContainer = document.getElementById('mainContainer');
+    const supportWrapper = document.getElementById('supportWrapper');
+    const bugMenu = document.getElementById('bugMenu');
+    const volumeControl = document.getElementById('volumeControl');
+    const bgm = document.getElementById('bgm');
+    const notifBox = document.getElementById('notif');
+    let bugAttempts = 0;
+
+    function showNotif(text) {
+      notifBox.innerText = text;
+      notifBox.style.display = 'block';
+      notifBox.style.animation = 'none';
+      void notifBox.offsetWidth;
+      notifBox.style.animation = 'fadeOnly 2s ease';
+      setTimeout(() => {
+        notifBox.style.display = 'none';
+      }, 2500);
     }
 
-    function showNotif(msg) {
-      const box = document.getElementById('notifBox');
-      box.innerText = msg;
-      box.style.display = 'block';
-      setTimeout(() => { box.style.display = 'none'; }, 6000);
-    }
-
-    function checkLogin() {
-      const username = document.getElementById('username').value.trim().toLowerCase();
-      const email = document.getElementById('email').value.trim().toLowerCase();
-      const password = document.getElementById('password').value.trim().toLowerCase();
-      const currentDevice = getDeviceID();
-      const combinedKey = username + ':' + email + ':' + password;
-      const existingDevice = localStorage.getItem(DATA_KEY + combinedKey);
-
-      //dibawah bre buat tambahin username + email + pw
-      const validAccounts = [
-        { username: 'ciyz', email: 'ciyz', password: 'good' },
-        { username: 'ryzenx', email: 'ryzenx', password: 'crr' }
-      ];
-
-      const isValid = validAccounts.some(acc =>
-        acc.username === username && acc.email === email && acc.password === password);
-
-      if (isValid) {
-        if (!existingDevice || existingDevice === currentDevice) {
-          localStorage.setItem(DATA_KEY + combinedKey, currentDevice);
-          document.getElementById('loginSection').style.display = 'none';
-          document.getElementById('mainMenu').style.display = 'flex';
-          showNotif('Login Berhasil');
-        } else {
-          showNotif('DATA INI SUDAH DIPAKAI DI HP LAIN!');
-        }
+    function handleLogin() {
+      const email = document.getElementById('email').value;
+      const pw = document.getElementById('password').value;
+      if (email === 'chrizyx' && pw === 'offc') {
+        showNotif('Logging in...');
+        setTimeout(() => {
+          loginContainer.classList.add('hidden');
+          mainContainer.classList.remove('hidden');
+          volumeControl.classList.remove('hidden');
+          bgm.play();
+        }, 2000);
       } else {
-        showNotif('Username / Email / Password salah!');
+        showNotif('kocak lo, nyolong ya?');
       }
     }
 
-    function logout() {
+    function handleLogout() {
       location.reload();
     }
 
-    function showBugMenu() {
-      document.getElementById('mainMenu').style.display = 'none';
-      document.getElementById('bugMenu').style.display = 'flex';
+    function togglePlay() {
+      if (bgm.paused) {
+        bgm.play();
+      } else {
+        bgm.pause();
+      }
     }
 
-    function hideBugMenu() {
-      document.getElementById('bugMenu').style.display = 'none';
-      document.getElementById('mainMenu').style.display = 'flex';
+    volumeControl.addEventListener('input', () => {
+      bgm.volume = volumeControl.value;
+    });
+
+    function handleBug(type) {
+      const target = document.getElementById('targetNumber').value;
+      if (!target) return showNotif("Masukkan nomor dulu!");
+      showNotif(`procces send bug to ${target}`);
+      setTimeout(() => {
+        showNotif('Gagal: nomor tidak terdaftar');
+        bugAttempts++;
+        if (bugAttempts >= 3) {
+          showNotif('Terlalu banyak percobaan. Logout...');
+          setTimeout(() => handleLogout(), 1500);
+        }
+      }, 3000);
     }
-  </script></body>
+
+    function toggleBugMenu() {
+      mainContainer.classList.add('hidden');
+      bugMenu.classList.remove('hidden');
+    }
+
+    function showSupport() {
+      mainContainer.classList.add('hidden');
+      supportWrapper.classList.remove('hidden');
+    }
+
+    function backToMain() {
+      bugMenu.classList.add('hidden');
+      supportWrapper.classList.add('hidden');
+      mainContainer.classList.remove('hidden');
+    }
+  </script>
+</body>
 </html>
