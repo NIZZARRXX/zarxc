@@ -1,294 +1,175 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>DEEXRYZ V2</title>
-  <style>
+<meta charset="UTF-8">
+<title>Popup Gambar</title>
+
+<style>
     body {
-      margin: 0;
-      font-family: sans-serif;
-      background-image: url('https://files.catbox.moe/hckwr4.jpg');
-      background-size: cover;
-      background-position: center;
-      color: white;
-      text-align: center;
-    }
-    .container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
-      gap: 1rem;
-    }
-    input, button {
-      padding: 10px 20px;
-      border-radius: 10px;
-      border: none;
-      font-size: 16px;
-    }
-    button {
-      background: linear-gradient(45deg, red, green, blue, turquoise);
-      background-size: 400% 400%;
-      animation: rgbtButton 5s ease infinite;
-      color: white;
-      cursor: pointer;
-      font-weight: bold;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
-    }
-    input {
-      background-color: rgba(255, 255, 255, 0.2);
-      color: white;
-      border: 1px solid black;
-    }
-    .hidden { display: none; }
-
-    .volume-control {
-      position: fixed;
-      right: 10px;
-      bottom: 70px;
-    }
-    .play-btn {
-      background: none;
-      border: none;
-      font-size: 24px;
-      cursor: pointer;
-      position: fixed;
-      right: 10px;
-      bottom: 120px;
-      color: white;
+        font-family: Arial, sans-serif;
+        background: #f0f0f0;
+        padding: 20px;
+        text-align: center;
     }
 
-    .logout-btn {
-      background: linear-gradient(45deg, red, green, blue, turquoise);
-      background-size: 400% 400%;
-      animation: rgbtButton 5s ease infinite;
-      color: white;
-      margin-top: 10px;
+    h2 {
+        margin-bottom: 20px;
     }
 
-    .notif {
-      position: fixed;
-      top: 60px;
-      left: 50%;
-      transform: translateX(-50%);
-      background-color: rgba(0,0,0,0.6);
-      padding: 10px 20px;
-      border-radius: 10px;
-      animation: fadeOnly 2s ease;
-      z-index: 98;
-    }
-    @keyframes fadeOnly {
-      0% { opacity: 0; }
-      20% { opacity: 1; }
-      80% { opacity: 1; }
-      100% { opacity: 0; }
+    .item {
+        background: white;
+        padding: 15px;
+        margin: 0 auto 12px auto;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: bold;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.9);
+        max-width: 400px;
+        text-align: center;
     }
 
-    footer {
-      position: fixed;
-      bottom: 10px;
-      width: 100%;
-      text-align: center;
-      font-size: 14px;
+    .item:hover {
+        background: #eaeaea;
     }
 
-    #supportContainer {
-      background-color: rgba(0, 0, 0, 0.5);
-      padding: 20px;
-      border-radius: 20px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      align-items: center;
+    /* Overlay blur */
+    .overlay {
+        display: none;
+        position: fixed;
+        inset: 0;
+        backdrop-filter: blur(8px);
+        background: rgba(0,0,0,0.55);
+        justify-content: center;
+        align-items: center;
+        z-index: 999;
     }
 
-    .support-box {
-      padding: 6px 20px;
-      border-radius: 10px;
-      background-color: rgba(255,255,255,0.1);
+    /* Popup box */
+    .popup {
+        background: white;
+        padding: 15px;
+        border-radius: 10px;
+        max-width: 85%;
+        max-height: 85%;
+        border-left: 6px solid black;
+        box-shadow: 0 10px 25px rgba(0,0,0,1);
+        text-align: center;
     }
 
-    .led-banner {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      background: rgba(0, 0, 0, 0.6);
-      overflow: hidden;
-      height: 50px;
-      display: flex;
-      align-items: center;
-      z-index: 99;
+    .popup img {
+        max-width: 100%;
+        max-height: 65vh;
+        border-radius: 6px;
+        box-shadow: 0 6px 15px rgba(0,0,0,1);
+        display: block;
+        margin: 0 auto;
     }
 
-    .led-text {
-      font-size: 24px;
-      font-weight: bold;
-      white-space: nowrap;
-      background: linear-gradient(45deg, red, green, blue, turquoise);
-      background-size: 400% 400%;
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      animation: ledScroll 12s linear infinite, rgbtText 5s ease infinite;
+    .popup-note {
+        margin-top: 10px;
+        font-size: 14px;
+        font-weight: bold;
+        opacity: 0.8;
     }
 
-    @keyframes ledScroll {
-  0%   { transform: translateX(100%); }
-  100% { transform: translateX(-100%); }
-}
-
-    @keyframes rgbtText {
-      0% { background-position: 0% 50%; }
-      100% { background-position: 100% 50%; }
+    /* Tombol musik */
+    .music-btn {
+        position: fixed;
+        right: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 80px;
+        height: 80px;
+        background: rgba(255,255,255,0.25);
+        backdrop-filter: blur(4px);
+        border-radius: 12px;
+        box-shadow: 0 6px 18px rgba(0,0,0,0.9);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        cursor: pointer;
+        user-select: none;
+        z-index: 1000;
+        text-align: center;
     }
 
-    @keyframes rgbtButton {
-      0% { background-position: 0% 50%; }
-      100% { background-position: 100% 50%; }
+    .music-btn.hidden {
+        display: none;
     }
-
-  </style>
+</style>
 </head>
+
 <body>
-  <audio id="bgm" src="https://files.catbox.moe/cuot2o.mp3" loop></audio>
 
-  <div class="led-banner">
-    <div class="led-text">WEB FREE JANGAN DIJUAL</div>
-  </div>
+<h2>IKI CONTOH" NE</h2>
 
-  <div class="notif" id="notif" style="display:none;">Notifikasi</div>
+<div class="item" onclick="openPopup('https://files.catbox.moe/jxd6tp.jpg')">
+    Creatine
+</div>
 
-  <div class="container" id="loginContainer">
-    <h2>Login</h2>
-    <input type="text" id="email" placeholder="Email" />
-    <input type="password" id="password" placeholder="Password" />
-    <button onclick="handleLogin()">Login</button>
-  </div>
+<div class="item" onclick="openPopup('https://files.catbox.moe/hfqtdd.jpg')">
+    Cool Vita
+</div>
 
-  <div class="container hidden" id="mainContainer">
-    <button onclick="toggleBugMenu()">MENU BUG</button>
-    <button onclick="window.location.href='https://wa.me/62895337727870?text=Permisi+Developer'">Developer</button>
-    <button onclick="window.location.href='https://whatsapp.com/channel/0029Vb9fuDD5PO0y6WfXmv21'">Channel Developer</button>
-    <button onclick="showSupport()">Support To</button>
-    <button class="logout-btn" onclick="handleLogout()">Log Out</button>
-  </div>
+<div class="item" onclick="openPopup('https://files.catbox.moe/kjyncg.jpg')">
+    Terjemah Kitab Fathul Izhar & Durrotul Uyun
+</div>
 
-  <div class="container hidden" id="bugMenu">
-    <input type="text" id="targetNumber" placeholder="08xxxxxxxx" />
-    <button onclick="handleBug('DEEXRYZ CRASH')">DEEXRYZ CRASH</button>
-    <button onclick="handleBug('DEEXRYZ DELAY')">DEEXRYZ DELAY</button>
-    <button onclick="handleBug('DEEXRYZ IPHONE')">DEEXRYZ IPHONE</button>
-    <button onclick="handleBug('DEEXRYZ DEVICE')">DEEXRYZ DEVICE</button>
-    <button onclick="handleBug('DEEXRYZ RESTART PHONE')">DEEXRYZ RESTART PHONE</button>
-    <button onclick="backToMain()">Back</button>
-  </div>
+<div class="item" onclick="openPopup('https://files.catbox.moe/olon03.jpg')">
+    Terjemah Ta'lim Al-Muta'allim
+</div>
 
-  <div class="container hidden" id="supportWrapper">
-    <div id="supportContainer">
-      <div class="support-box"><strong>Support To:</strong></div>
-      <div class="support-box">RYZENX [ DEVELOPER ]</div>
-      <div class="support-box">CHRIZYX [ BEST FRIEND ]</div>
-      <div class="support-box">RIZZXA [ BEST FRIEND ]</div>
-      <div class="support-box">DEDE [ DEVELOPER ]</div>
-      <div class="support-box">PUTZ [ MEMBER'S ]</div>
-      <div class="support-box">MR. LexzTheRuler [ SUPPORT & BEST FRIEND ]</div>
-      <div class="support-box">AREXANS [ SUPPORT ]</div>
-      <div class="support-box">AJI [ MEMBER'S ]</div>
-      <div class="support-box">Kayyzoo Jebe [ Reseller ]</div>
-      <div class="support-box">ALLAH [ MY GOD ]</div>
-      <div class="support-box">ORTU [ SUPPORT ]</div>
-      <div class="support-box"><button onclick="backToMain()">Back</button></div>
+<div class="item" onclick="openPopup('https://files.catbox.moe/45h6xy.jpg')">
+    Terjemah Fathul Qarib
+</div>
+
+<!-- Popup -->
+<div class="overlay" id="overlay" onclick="closePopup()">
+    <div class="popup" onclick="event.stopPropagation()">
+        <img id="popupImage">
+        <div class="popup-note">
+            Klik bagian mana pun untuk menutup pop up
+        </div>
     </div>
-  </div>
+</div>
 
-  <button class="play-btn" onclick="togglePlay()">🔊</button>
-  <input class="volume-control hidden" type="range" min="0" max="1" step="0.01" id="volumeControl" />
-  <footer>© CRR TEAM</footer>
+<!-- Musik -->
+<audio id="music" loop>
+    <source src="https://files.catbox.moe/95wy03.mp3" type="audio/mpeg">
+</audio>
 
-  <script>
-    const loginContainer = document.getElementById('loginContainer');
-    const mainContainer = document.getElementById('mainContainer');
-    const supportWrapper = document.getElementById('supportWrapper');
-    const bugMenu = document.getElementById('bugMenu');
-    const volumeControl = document.getElementById('volumeControl');
-    const bgm = document.getElementById('bgm');
-    const notifBox = document.getElementById('notif');
-    let bugAttempts = 0;
+<div class="music-btn" id="musicBtn" onclick="toggleMusic()">
+    PLAY
+</div>
 
-    function showNotif(text) {
-      notifBox.innerText = text;
-      notifBox.style.display = 'block';
-      notifBox.style.animation = 'none';
-      void notifBox.offsetWidth;
-      notifBox.style.animation = 'fadeOnly 2s ease';
-      setTimeout(() => {
-        notifBox.style.display = 'none';
-      }, 2500);
+<script>
+    function openPopup(src) {
+        const img = document.getElementById("popupImage");
+        img.src = "";
+        img.src = src;
+        document.getElementById("overlay").style.display = "flex";
+        document.getElementById("musicBtn").classList.add("hidden");
     }
 
-    function handleLogin() {
-      const email = document.getElementById('email').value;
-      const pw = document.getElementById('password').value;
-      if (email === 'Deexryz' && pw === 'Version-2') {
-        showNotif('Logging in...');
-        setTimeout(() => {
-          loginContainer.classList.add('hidden');
-          mainContainer.classList.remove('hidden');
-          volumeControl.classList.remove('hidden');
-          bgm.play();
-        }, 2000);
-      } else {
-        showNotif('kocak lo, nyolong ya?');
-      }
+    function closePopup() {
+        document.getElementById("overlay").style.display = "none";
+        document.getElementById("musicBtn").classList.remove("hidden");
     }
 
-    function handleLogout() {
-      location.reload();
-    }
+    function toggleMusic() {
+        const music = document.getElementById("music");
+        const btn = document.getElementById("musicBtn");
 
-    function togglePlay() {
-      if (bgm.paused) {
-        bgm.play();
-      } else {
-        bgm.pause();
-      }
-    }
-
-    volumeControl.addEventListener('input', () => {
-      bgm.volume = volumeControl.value;
-    });
-
-    function handleBug(type) {
-      const target = document.getElementById('targetNumber').value;
-      if (!target) return showNotif("Masukkan nomor dulu!");
-      showNotif(`procces send bug to ${target}`);
-      setTimeout(() => {
-        showNotif('Gagal: nomor tidak terdaftar');
-        bugAttempts++;
-        if (bugAttempts >= 3) {
-          showNotif('Terlalu banyak percobaan. Logout...');
-          setTimeout(() => handleLogout(), 1500);
+        if (music.paused) {
+            music.play();
+            btn.innerText = "OFF";
+        } else {
+            music.pause();
+            btn.innerText = "PLAY";
         }
-      }, 3000);
     }
+</script>
 
-    function toggleBugMenu() {
-      mainContainer.classList.add('hidden');
-      bugMenu.classList.remove('hidden');
-    }
-
-    function showSupport() {
-      mainContainer.classList.add('hidden');
-      supportWrapper.classList.remove('hidden');
-    }
-
-    function backToMain() {
-      bugMenu.classList.add('hidden');
-      supportWrapper.classList.add('hidden');
-      mainContainer.classList.remove('hidden');
-    }
-  </script>
 </body>
 </html>
