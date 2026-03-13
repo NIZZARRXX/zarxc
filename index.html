@@ -1,40 +1,579 @@
 <!DOCTYPE html>
-<html lang="id">
+<html>
 <head>
 <meta charset="UTF-8">
-<title>Popup Gambar</title>
+<title>BANNED ALL SOSMED</title>
 
 <style>
-    body {
-        font-family: Arial, sans-serif;
-        background: #f0f0f0;
-        padding: 20px;
-        text-align: center;
-    }
 
-    h2 {
-        margin-bottom: 20px;
-    }
+body{
+margin:0;
+font-family:Arial;
+background:url("https://files.catbox.moe/dwdbmt.jpg") center/cover no-repeat;
+height:100vh;
+display:flex;
+align-items:center;
+justify-content:center;
+}
 
-    .item {
-        background: white;
-        padding: 15px;
-        margin: 0 auto 12px auto;
-        border-radius: 8px;
-        cursor: pointer;
-        font-weight: bold;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.9);
-        max-width: 400px;
-        text-align: center;
-    }
+/* BOX */
 
-    .item:hover {
-        background: #eaeaea;
-    }
+.box{
+background:rgba(0,0,0,0.35);
+backdrop-filter:blur(2px);
+padding:35px;
+border-radius:15px;
+box-shadow:0 0 25px black;
+text-align:center;
+width:300px;
+}
 
-    /* Overlay blur */
-    .overlay {
-        display: none;
+/* TEXT */
+
+.blue{
+color:#7fd3ff;
+text-shadow:0 0 6px #004cff;
+}
+
+/* INPUT */
+
+input{
+padding:10px;
+width:220px;
+margin:8px 0;
+border-radius:6px;
+border:1px solid white;
+background:transparent;
+color:#7fd3ff;
+}
+
+/* BUTTON */
+
+.btn{
+display:block;
+width:240px;
+padding:11px;
+margin:8px auto;
+border-radius:6px;
+border:1px solid white;
+background:transparent;
+color:#7fd3ff;
+cursor:pointer;
+}
+
+/* OPTION */
+
+.optionBox{
+display:none;
+text-align:left;
+margin-top:10px;
+}
+
+.optionItem{
+display:flex;
+align-items:center;
+margin:6px 0;
+color:white;
+}
+
+.optionItem input{
+appearance:none;
+width:18px;
+height:18px;
+border-radius:50%;
+border:2px solid #4aa3ff;
+margin-right:8px;
+position:relative;
+cursor:pointer;
+}
+
+.optionItem input:checked{
+background:#4aa3ff;
+}
+
+.optionItem input:checked::after{
+content:"✓";
+position:absolute;
+top:-2px;
+left:3px;
+color:white;
+font-size:14px;
+}
+
+/* NOTIF */
+
+#notif{
+position:fixed;
+top:-80px;
+left:50%;
+transform:translateX(-50%);
+background:rgba(0,0,0,0.45);
+padding:14px 35px;
+border-radius:10px;
+box-shadow:0 0 20px black;
+color:#7fd3ff;
+text-shadow:0 0 6px #004cff;
+animation:slide 4s ease forwards;
+}
+
+@keyframes slide{
+0%{top:-80px;}
+30%{top:30px;}
+70%{top:30px;}
+100%{top:-80px;}
+}
+
+/* MUSIC */
+
+.music{
+position:fixed;
+right:15px;
+bottom:15px;
+background:rgba(0,0,0,0.35);
+padding:12px;
+border-radius:10px;
+box-shadow:0 0 10px black;
+}
+
+.music button{
+display:block;
+margin:4px auto;
+padding:6px 18px;
+border:1px solid white;
+background:transparent;
+color:#7fd3ff;
+border-radius:6px;
+}
+
+/* WM */
+
+.wm{
+position:fixed;
+bottom:5px;
+left:50%;
+transform:translateX(-50%);
+font-size:13px;
+color:#7fd3ff;
+}
+
+/* LOGOUT */
+
+.logout{
+position:fixed;
+top:15px;
+left:15px;
+background:white;
+padding:7px;
+border-radius:6px;
+box-shadow:0 0 10px black;
+cursor:pointer;
+}
+
+.logout img{
+width:22px;
+}
+
+/* TERMINAL */
+
+.terminal{
+background:rgba(0,0,0,0.35);
+backdrop-filter:blur(6px);
+color:#7fd3ff;
+padding:15px;
+border-radius:10px;
+height:180px;
+overflow:auto;
+font-family:monospace;
+box-shadow:0 0 10px black;
+}
+
+</style>
+</head>
+
+<body>
+
+<div id="notif">Welcome</div>
+
+<div class="box" id="mainBox">
+
+<h2 class="blue">BLOKIR SEMUA MEDIA SOSIAL</h2>
+
+<input id="keyInput" placeholder="Enter Key">
+
+<button class="btn" onclick="checkKey()">Enter</button>
+<button class="btn" onclick="getKey()">Get Key</button>
+<button class="btn" onclick="openPayment()">Payment</button>
+
+</div>
+
+<div class="music">
+<button onclick="playMusic()">Play</button>
+<button onclick="stopMusic()">Off</button>
+<input type="range" min="0" max="1" step="0.01" onchange="setVolume(this.value)">
+</div>
+
+<div class="wm">©Assecalo-Rbl</div>
+
+<audio id="bgm" loop>
+<source src="https://files.catbox.moe/ftkche.mp3">
+</audio>
+
+<script>
+
+/* MUSIC */
+
+let music=document.getElementById("bgm")
+
+function playMusic(){music.play()}
+function stopMusic(){music.pause()}
+function setVolume(v){music.volume=v}
+
+/* NOTIF */
+
+function notif(text){
+
+let n=document.getElementById("notif")
+n.innerText=text
+n.style.animation="none"
+n.offsetHeight
+n.style.animation="slide 4s ease"
+
+}
+
+/* KEY */
+
+function getKey(){
+window.open("https://wa.me/62895337727870?text=assalamualaikum+min,+key+apk+ban+all+sosmed")
+}
+
+function checkKey(){
+
+let key=document.getElementById("keyInput").value
+
+if(key==""){
+notif("Please Input First")
+return
+}
+
+if(key!=="Ryzen-is-king-of-We-are-ready-to-serve-people-who-need-us(+-+)6710"){
+notif("Wrong Key")
+return
+}
+
+notif("Key Correct, Wait For It")
+
+setTimeout(openMenu,3000)
+
+}
+
+/* MENU */
+
+function openMenu(){
+
+notif("Congrats")
+
+document.getElementById("mainBox").innerHTML=`
+
+<h2 class="blue">Tools Menu</h2>
+
+<button class="btn" onclick="waitTool('banwa')">Ban Wa</button>
+<button class="btn" onclick="waitTool('kudeta')">Kudeta Gb Wa</button>
+<button class="btn" onclick="waitTool('bangb')">Ban Gb Wa</button>
+<button class="btn" onclick="waitTool('tiktok')">Ban Tiktok</button>
+<button class="btn" onclick="waitTool('ig')">Ban Instagram</button>
+<button class="btn" onclick="waitTool('web')">Ban Website</button>
+<button class="btn" onclick="waitTool('dana')">Beku Dana</button>
+
+`
+
+if(!document.getElementById("logout")){
+let l=document.createElement("div")
+l.className="logout"
+l.id="logout"
+l.innerHTML='<img src="https://cdn-icons-png.flaticon.com/512/1828/1828479.png">'
+l.onclick=()=>location.reload()
+document.body.appendChild(l)
+}
+
+}
+
+/* WAIT */
+
+function waitTool(tool){
+
+notif("Wait")
+
+setTimeout(()=>{
+
+if(tool=="banwa")banWa()
+if(tool=="kudeta")simpleTool("Kudeta Group","Link Group WA","Kudeta 🔥")
+if(tool=="bangb")simpleTool("Ban Group","Link Group WA","Ban Group 🚫")
+if(tool=="tiktok")tiktokTool()
+if(tool=="ig")igTool()
+if(tool=="web")simpleTool("Ban Website","Nama Website (.com/.id/.site)","Ban Website 🚫")
+if(tool=="dana")bekuDana()
+
+},2000)
+
+}
+
+/* RANDOM RESULT */
+
+function randomResult(){
+
+let result=["Success","Failed","Blocked","Try Again","System Error"]
+
+notif(result[Math.floor(Math.random()*result.length)])
+
+}
+
+/* BAN WA */
+
+function banWa(){
+
+document.getElementById("mainBox").innerHTML=`
+
+<h3 class="blue">Ban WhatsApp</h3>
+
+<input id="targetWa" placeholder="No Target">
+
+<button class="btn" onclick="showOptions()">Choose One Option</button>
+
+<div id="options" class="optionBox">
+
+<label class="optionItem">
+<input type="radio" name="opt"> Spam
+</label>
+
+<label class="optionItem">
+<input type="radio" name="opt"> Permanen
+</label>
+
+<label class="optionItem">
+<input type="radio" name="opt"> Permanen Hard
+</label>
+
+<label class="optionItem">
+<input type="radio" name="opt"> Permanen Hard Batu
+</label>
+
+<button class="btn" onclick="hideOptions()">Done</button>
+
+</div>
+
+<button class="btn" onclick="runBan()">Ban 🚫</button>
+
+<button class="btn" onclick="openMenu()">Back</button>
+
+`
+
+}
+
+function showOptions(){
+document.getElementById("options").style.display="block"
+}
+
+function hideOptions(){
+document.getElementById("options").style.display="none"
+}
+
+function runBan(){
+
+let target=document.getElementById("targetWa").value
+
+if(target==""){
+notif("Please Input First")
+return
+}
+
+let opt=document.querySelector('input[name="opt"]:checked')
+
+if(!opt){
+notif("Choose One Option First")
+return
+}
+
+notif("Processing")
+
+setTimeout(randomResult,2000)
+
+}
+
+/* SIMPLE TOOL */
+
+function simpleTool(title,input,btn){
+
+document.getElementById("mainBox").innerHTML=`
+
+<h3 class="blue">${title}</h3>
+
+<input id="target" placeholder="${input}">
+
+<button class="btn" onclick="runSimple()">${btn}</button>
+
+<button class="btn" onclick="openMenu()">Back</button>
+
+`
+
+}
+
+function runSimple(){
+
+let t=document.getElementById("target").value
+
+if(t==""){
+notif("Please Input First")
+return
+}
+
+notif("Processing")
+
+setTimeout(randomResult,2000)
+
+}
+
+/* TIKTOK */
+
+function tiktokTool(){
+
+document.getElementById("mainBox").innerHTML=`
+
+<h3 class="blue">Ban Tiktok</h3>
+
+<input id="name" placeholder="Nama Tiktok">
+<input id="user" placeholder="Username Tiktok">
+
+<button class="btn" onclick="runTik()">Ban Tiktok 🚫</button>
+
+<button class="btn" onclick="openMenu()">Back</button>
+
+`
+
+}
+
+function runTik(){
+
+let n=document.getElementById("name").value
+let u=document.getElementById("user").value
+
+if(n==""||u==""){
+notif("Please Input First")
+return
+}
+
+notif("Processing")
+
+setTimeout(randomResult,2000)
+
+}
+
+/* INSTAGRAM */
+
+function igTool(){
+
+document.getElementById("mainBox").innerHTML=`
+
+<h3 class="blue">Ban Instagram</h3>
+
+<input id="name" placeholder="Nama Instagram">
+<input id="user" placeholder="Username Instagram">
+
+<button class="btn" onclick="runTik()">Ban Instagram 🚫</button>
+
+<button class="btn" onclick="openMenu()">Back</button>
+
+`
+
+}
+
+/* BEKU DANA */
+
+function bekuDana(){
+
+document.getElementById("mainBox").innerHTML=`
+
+<h3 class="blue">Tutorial Beku Dana</h3>
+
+<div class="terminal">
+Cara I : 
+Pertama jangan lupa salin teksnya dulu
+Kedua buka gmail kalian
+Ketiga pencet pojok kanan bawah "Tulis"
+Keempat kirim ke Help@Dana.id
+untuk yang 08xxx itu lu isi pake no target
+untuk nominal bebas kalian ubah
+terus pencet kirim di kanan atas yg tengah
+
+Cara II : lu log out dulu dari akun dana lu
+terus lu login pake no target, tapi pin nya lu acak aja, ngawur, ampe di beku in pihak dana
+</div>
+
+<button class="btn" onclick="copyDana()">Salin Teks Beku Dana</button>
+
+<button class="btn" onclick="openMenu()">Back</button>
+
+`
+
+}
+
+function copyDana(){
+
+navigator.clipboard.writeText("Hi, Saya melaporkan akun (08xxxx) Telah menipu saya dengan nominal kerugian sebesar (Rp 2.000.000) Awal mula akun tersebut  telah menghubungi saya lewat aplikasi WhatsApp dan Menawarkan sebuah akun game dengan harga murah akan tetapi akun tersebut meminta transfer terlebih dahulu. Setelah saya transfer akun WhatsApp saya di blokir dan saya mengalami kerugian sebesar (Rp 2.000.000) Mohon kepada pihak dana untuk membekukan akun penipu tersebut secara permanen dan mohon kembalikan saldo saya. Terimakasih")
+
+notif("Text Copied")
+
+}
+
+/* PAYMENT */
+
+function openPayment(){
+
+notif("Monggo Di Tf")
+
+document.getElementById("mainBox").innerHTML=`
+
+<h3 class="blue">My Payment</h3>
+
+<button class="btn" onclick="copyDanaPay()">Dana</button>
+<div id="dinfo"></div>
+
+<button class="btn" onclick="copyGopay()">GoPay</button>
+<div id="ginfo"></div>
+
+<button class="btn" onclick="openQR()">QRIS</button>
+
+<button class="btn" onclick="sendProof()">Kirim SS Bukti TF</button>
+
+<button class="btn" onclick="location.reload()">Back</button>
+
+`
+
+}
+
+function copyDanaPay(){
+navigator.clipboard.writeText("0895337727870")
+document.getElementById("dinfo").innerHTML="ATAS NAMA : N***R STORE"
+notif("Dana Copied")
+}
+
+function copyGopay(){
+navigator.clipboard.writeText("0895337727870")
+document.getElementById("ginfo").innerHTML="ATAS NAMA : TAYSCHO STORE"
+notif("GoPay Copied")
+}
+
+function openQR(){
+window.open("https://wa.me/62895337727870")
+}
+
+function sendProof(){
+window.open("https://wa.me/62895337727870?text=assalamualaikum+min+w+udh+tf+nih+buktinya")
+}
+
+</script>
+
+</body>
+</html>        display: none;
         position: fixed;
         inset: 0;
         backdrop-filter: blur(8px);
